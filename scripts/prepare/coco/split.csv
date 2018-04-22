@@ -1,0 +1,81 @@
+classes,train,test
+person,265751,10888
+bicycle,7113,316
+car,44338,1666
+motorbike,8730,391
+airplane,5154,131
+bus,6100,261
+train,4550,212
+truck,10038,352
+boat,10832,475
+traffic light,13016,516
+fire hydrant,1883,83
+stop sign,1974,84
+parking meter,1287,59
+bench,9787,473
+bird,10883,469
+cat,4776,195
+dog,5507,223
+horse,6562,305
+sheep,9724,321
+cow,8171,384
+elephant,5491,284
+bear,1312,53
+zebra,5296,277
+giraffe,5193,170
+backpack,8707,384
+umbrella,11531,392
+handbag,12415,483
+tie,6470,297
+suitcase,6214,310
+frisbee,2688,109
+skis,6605,282
+snowboard,2665,92
+sports ball,6393,236
+kite,9159,399
+baseball bat,3300,125
+baseball glove,3756,139
+skateboard,5508,218
+surfboard,6143,266
+tennis racket,4854,183
+bottle,24516,966
+wine glass,7914,366
+cup,20710,897
+fork,5466,234
+knife,7810,291
+spoon,6168,253
+bowl,14398,620
+banana,9603,371
+apple,5941,158
+sandwich,4403,160
+orange,6561,189
+broccoli,7308,332
+carrot,7885,346
+hot dog,2908,164
+pizza,5892,224
+donut,7401,237
+cake,6466,241
+chair,38878,1621
+couch,5804,236
+potted plant,8585,431
+bed,4160,195
+dining table,15789,634
+toilet,4157,179
+tv,5836,257
+laptop,4964,237
+mouse,2273,95
+remote,5746,241
+keyboard,2891,117
+cell phone,6411,291
+microwave,1641,88
+oven,3335,142
+toaster,223,11
+sink,5624,211
+refrigerator,2658,107
+book,25244,1078
+clock,6320,292
+vase,6539,353
+scissors,1464,56
+teddy bear,4775,245
+hair drier,198,11
+toothbrush,1937,77

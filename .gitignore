@@ -1,21 +1,24 @@
 *.o
 *.dSYM
-*.csv
 *.out
-*.png
-*.so
-mnist/
-data/
-caffe/
-grasp/
-images/
-opencv/
-convnet/
-decaf/
-submission/
-cfg/
+*.pyc
 darknet
 .fuse*
+#lib*
+
+weights/*.weights
+backup/*.backup
+backup/*.weights
+
+conv/darknet53.conv.74
+
+my-weights/*.weights
+my-weights/*.backup
+
+tools/bbox-label-tool/Images/*
+tools/bbox-label-tool/labels/*
+tools/imagenet/n*
+tools/imagenet/userinfo.json
 
 # OS Generated #
 .DS_Store*
@@ -23,7 +26,5 @@ ehthumbs.db
 Icon?
 Thumbs.db
 *.swp
-
-# CMake #
-cmake-build-debug/
-CMakeLists.txt
+*.a
+*.so
