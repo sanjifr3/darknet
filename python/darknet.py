@@ -1,7 +1,10 @@
+#!/usr/bin/env python
+
 from ctypes import *
 import math
 import random
 import os
+import numpy as np
 
 def sample(probs):
     s = sum(probs)
@@ -43,11 +46,11 @@ class METADATA(Structure):
     _fields_ = [("classes", c_int),
                 ("names", POINTER(c_char_p))]
 
-    
-dn_lib = os.environ['HOME'] + '/programs/darknet/libdarknet.so'    
+
+dn_lib = os.environ['HOME'] + '/programs/pj_darknet/libdarknet.so'    
+
 #lib = CDLL("/home/pjreddie/documents/darknet/libdarknet.so", RTLD_GLOBAL)
 lib = CDLL(dn_lib, RTLD_GLOBAL)
-#lib = CDLL("yolo_cpp_dll.dll", RTLD_GLOBAL)
 lib.network_width.argtypes = [c_void_p]
 lib.network_width.restype = c_int
 lib.network_height.argtypes = [c_void_p]
@@ -65,7 +68,7 @@ make_image.argtypes = [c_int, c_int, c_int]
 make_image.restype = IMAGE
 
 get_network_boxes = lib.get_network_boxes
-get_network_boxes.argtypes = [c_void_p, c_int, c_int, c_float, c_float, POINTER(c_int), c_int, POINTER(c_int), c_int]
+get_network_boxes.argtypes = [c_void_p, c_int, c_int, c_float, c_float, POINTER(c_int), c_int, POINTER(c_int)]
 get_network_boxes.restype = POINTER(DETECTION)
 
 make_network_boxes = lib.make_network_boxes
@@ -116,6 +119,16 @@ predict_image = lib.network_predict_image
 predict_image.argtypes = [c_void_p, IMAGE]
 predict_image.restype = POINTER(c_float)
 
+def array_to_image(arr):
+  arr = arr.transpose(2,0,1)
+  c = arr.shape[0]
+  h = arr.shape[1]
+  w = arr.shape[2]
+  arr = (arr/255.0).flatten()
+  data = c_array(c_float, arr)
+  im = IMAGE(w,h,c,data)
+  return im
+
 def classify(net, meta, im):
     out = predict_image(net, im)
     res = []
@@ -129,11 +142,10 @@ def detect(net, meta, image, thresh=.5, hier_thresh=.5, nms=.45):
     num = c_int(0)
     pnum = pointer(num)
     predict_image(net, im)
-    dets = get_network_boxes(net, im.w, im.h, thresh, hier_thresh, None, 0, pnum, 1)
+    dets = get_network_boxes(net, im.w, im.h, thresh, hier_thresh, None, 0, pnum)
     num = pnum[0]
-    #if (nms): do_nms_obj(dets, num, meta.classes, nms);
-    if (nms): do_nms_sort(dets, num, meta.classes, nms);
-    
+    if (nms): do_nms_obj(dets, num, meta.classes, nms);
+
     res = []
     for j in range(num):
         for i in range(meta.classes):
@@ -146,24 +158,34 @@ def detect(net, meta, image, thresh=.5, hier_thresh=.5, nms=.45):
     return res
 
 def detect(im, net, meta, thresh=.5, hier_thresh=.5, nms=.45):
+    im = array_to_image(im)
+    #rgbgr_image(im)
     num = c_int(0)
     pnum = pointer(num)
     predict_image(net, im)
     dets = get_network_boxes(net, im.w, im.h, thresh, hier_thresh, None, 0, pnum, 1)
     num = pnum[0]
-    #if (nms): do_nms_obj(dets, num, meta.classes, nms);
     if (nms): do_nms_sort(dets, num, meta.classes, nms);
     
-    res = []
+    names = []
+    probs = []
+    locs = []
+
     for j in range(num):
-        for i in range(meta.classes):
-            if dets[j].prob[i] > 0:
-                b = dets[j].bbox
-                res.append((meta.names[i], dets[j].prob[i], (b.x, b.y, b.w, b.h)))
-    res = sorted(res, key=lambda x: -x[1])
-    free_image(im)
+      for i in range(meta.classes):
+        if dets[j].prob[i] > 0:
+          b = dets[j].bbox
+          names.append(meta.names[i])
+          probs.append(dets[j].prob[i])
+          locs.append((b.x,b.y,b.w,b.h))
+
     free_detections(dets, num)
-    return res    
+
+    names = [x for _,x in reversed(sorted(zip(probs,names), key=lambda pair: pair[0]))]
+    locs = [x for _,x in reversed(sorted(zip(probs,locs), key=lambda pair: pair[0]))]
+    probs = reversed(sorted(probs))
+
+    return names,probs,locs
     
 if __name__ == "__main__":
     #net = load_net("cfg/densenet201.cfg", "/home/pjreddie/trained/densenet201.weights", 0)
@@ -171,9 +193,7 @@ if __name__ == "__main__":
     #meta = load_meta("cfg/imagenet1k.data")
     #r = classify(net, meta, im)
     #print r[:10]
-    net = load_net("cfg/yolov3.cfg", "yolov3.weights", 0)
+    net = load_net("cfg/tiny-yolo.cfg", "tiny-yolo.weights", 0)
     meta = load_meta("cfg/coco.data")
-    r = detect(net, meta, "data/dog.jpg", 0.25)
+    r = detect(net, meta, "data/dog.jpg")
     print r
-    
-
