@@ -278,7 +278,7 @@ layer parse_yolo(list *options, size_params params)
 
 	l.ignore_thresh = option_find_float(options, "ignore_thresh", .5);
 	l.truth_thresh = option_find_float(options, "truth_thresh", 1);
-	l.random = option_find_int_quiet(options, "random", 0);
+	l.random_ = option_find_int_quiet(options, "random", 0);
 
 	char *map_file = option_find_str(options, "map", 0);
 	if (map_file) l.map = read_map(map_file);
@@ -322,7 +322,7 @@ layer parse_region(list *options, size_params params)
     l.thresh = option_find_float(options, "thresh", .5);
     l.classfix = option_find_int_quiet(options, "classfix", 0);
     l.absolute = option_find_int_quiet(options, "absolute", 0);
-    l.random = option_find_int_quiet(options, "random", 0);
+    l.random_ = option_find_int_quiet(options, "random", 0);
 
     l.coord_scale = option_find_float(options, "coord_scale", 1);
     l.object_scale = option_find_float(options, "object_scale", 1);
@@ -371,7 +371,7 @@ detection_layer parse_detection(list *options, size_params params)
     layer.noobject_scale = option_find_float(options, "noobject_scale", 1);
     layer.class_scale = option_find_float(options, "class_scale", 1);
     layer.jitter = option_find_float(options, "jitter", .2);
-    layer.random = option_find_int_quiet(options, "random", 0);
+    layer.random_ = option_find_int_quiet(options, "random", 0);
     layer.reorg = option_find_int_quiet(options, "reorg", 0);
     return layer;
 }

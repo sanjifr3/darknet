@@ -139,7 +139,7 @@ void forward_detection_layer(const detection_layer l, network_state state)
                         best_index = 0;
                     }
                 }
-                if(l.random && *(state.net.seen) < 64000){
+                if(l.random_ && *(state.net.seen) < 64000){
                     best_index = rand()%l.n;
                 }
 
