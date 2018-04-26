@@ -3,7 +3,7 @@ import os
 import sys
 import argparse
 
-coco_path = '/home/sanjif/Database/coco' # Path to coco database
+coco_path = os.environ['HOME'] + '/Database/coco' # Path to coco database
 if 'C_PATH' in os.environ:
   coco_path = os.environ['C_PATH']
   
