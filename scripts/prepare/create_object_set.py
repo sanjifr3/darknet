@@ -40,7 +40,7 @@ def getImagePaths(class_name, coco_classes, imagenet_classes, script_path):
   files = []
   if class_name in coco_classes:
     files = parseTrainingFiles(script_path + 'coco/coco')
-  elif class_name in in_classes:
+  elif class_name in imagenet_classes:
     files = parseTrainingFiles(script_path + 'imagenet/imagenet')
   return files
 
@@ -99,6 +99,7 @@ if __name__ == '__main__':
   all_classes = getClasses(script_path + 'obj.names')
 
   for class_name in classes:
+    print 'Creating %s dataset' %(class_name)
     # Get class id
     class_id = getClsId(class_name, all_classes)
     if class_id == -1:
