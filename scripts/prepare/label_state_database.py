@@ -30,7 +30,16 @@ if __name__ == '__main__':
     except IOError:
       df = pd.DataFrame(columns=['image','state'])
 
-    for im_file in images:
+    print 'press 0 for state 0'
+    print 'press 1 for state 1'
+    print 'press 2 for state 2'
+    print 'press z to delete last applied label'
+    print 'press . to skip image'
+    print 'press q to quit'
+
+    i = 0
+    while i < len(images):
+      im_file = images[i]
       if im_file not in df['image']:
         im = cv2.imread('%s/objects/%s/%s'%(database_path,class_name,im_file))
         cv2.imshow('im',im)
@@ -44,16 +53,22 @@ if __name__ == '__main__':
           state = 1
         elif key == ord('2'):
           state = 2
-        elif key == ord('n'):
+        elif key == ord('.'):
+          i+=1
+          print 'skip'
           continue
         elif key == ord('z'):
           if len(df) > 0:
             df.drop(df.index[len(df)-1],inplace=True)
+            print 'delete last label'
+            i-=1
           continue
         else:
           continue
 
+        print im_file,state
         df = df.append({'image':im_file,'state':state}, ignore_index=True)
+        i+=1
 
     df.sort_values('image',inplace=True)
     df.to_csv('%s/objects/%s.csv'%(database_path,class_name),sep=',',index=False)
