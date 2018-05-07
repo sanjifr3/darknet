@@ -6,11 +6,10 @@ TYPE=(
 )
 
 SUFFIXS=(
-#  _70000.weights
-#  _80000.weights
-#  _90000.weights
-#  _100000.weights
-#  _final.weights
+  _70000.weights
+  _80000.weights
+  _90000.weights
+  _100000.weights
   _102500.weights
   _105000.weights
   _107500.weights
@@ -21,6 +20,7 @@ SUFFIXS=(
   _120000.weights
   _122500.weights
   _125000.weights
+#  _final.weights
 #  .backup
 )
 
