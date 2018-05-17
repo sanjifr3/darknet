@@ -19,6 +19,7 @@ wget https://pjreddie.com/media/files/yolov2-tiny.weights
 wget https://pjreddie.com/media/files/tiny-yolo.weights
 wget https://pjreddie.com/media/files/tiny-yolo-voc.weights
 wget https://pjreddie.com/media/files/yolo9000.weights
+wget https://pjreddie.com/media/files/yolov3-tiny.weights
 
 cd ../conv
 wget https://pjreddie.com/media/files/darknet19_448.conv.23
