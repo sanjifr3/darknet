@@ -1,4 +1,4 @@
-classes = 50
+classes = 30
 train  = data/train.list
 valid  = data/test.list
 names = data/obj.names

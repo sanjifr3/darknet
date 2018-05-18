@@ -19,7 +19,7 @@ CREATE_COCO_TRAINTEST_FILES=0 # Create COCO training and testing files again
 TRAIN_SIZE=75 # /100: Ratio for training/testing split
 DOWNLOAD_DATA=0 # Download data from imagenet
 LABEL_DATA=0 # Label bounding boxes using bbox-labeling-tool
-RELABEL_IMAGENET=1 # Relabel imagenet dataset 
+RELABEL_IMAGENET=0 # Relabel imagenet dataset 
 #  -- works only if old_obj.names exists 
 #  -- can only run once
 DISTRIBUTE_FILES=1 # Distribute into training and testing data files
