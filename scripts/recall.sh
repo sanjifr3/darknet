@@ -1,8 +1,10 @@
 #!/bin/bash
 
 TYPE=(
-  yolov2-tiny-obj
-  yolov3-obj
+  #yolov2-tiny-50obj
+  #yolov3-50obj
+  yolov3-tiny-30obj
+  yolov3-30obj
 )
 
 cd ..

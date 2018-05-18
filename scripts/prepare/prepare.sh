@@ -11,7 +11,7 @@ MERGE_CLASSES=0
             ################## COCO #################
 UPDATE_COCO=0 # Update COCO classes
   LABEL_ALL_COCO=0 # Get 2017 COCO labels as well
-  RELABEL=0 # Relabel using the existing dataset or fresh using COCO api
+  RELABEL_COCO=0 # Relabel using the existing dataset or fresh using COCO api
 CREATE_COCO_TRAINTEST_FILES=0 # Create COCO training and testing files again
   REMOVE_COCO_EMPTY=0 # Delete label files that contain no labels
  
@@ -19,12 +19,16 @@ CREATE_COCO_TRAINTEST_FILES=0 # Create COCO training and testing files again
 TRAIN_SIZE=75 # /100: Ratio for training/testing split
 DOWNLOAD_DATA=0 # Download data from imagenet
 LABEL_DATA=0 # Label bounding boxes using bbox-labeling-tool
-DISTRIBUTE_FILES=0 # Distribute into training and testing data files
+RELABEL_IMAGENET=1 # Relabel imagenet dataset 
+#  -- works only if old_obj.names exists 
+#  -- can only run once
+DISTRIBUTE_FILES=1 # Distribute into training and testing data files
+REMOVE_IMAGENET_EMPTY=0 # Delete label files that contain no labels
 
             ############# General ##############
-MERGE_TRAINTEST_FILES=0 # Merging training and testing sets for coco and imagenet
+MERGE_TRAINTEST_FILES=1 # Merging training and testing sets for coco and imagenet
 SEE_SPLIT=0 # See split of classes
-SET_TRAINING_SYM_LINK=0 # Set sym link for YOLO training
+SET_TRAINING_SYM_LINK=1 # Set sym link for YOLO training
 
 ######################################################################                                                
 
@@ -44,14 +48,14 @@ fi
 if [ $UPDATE_COCO -eq 1 ]; then
   # Update label files for all classes in COCO 2014 & COCO 2017 and then relabel
   # required classes
-  if [ $RELABEL -eq 1 ] && [ $LABEL_ALL_COCO -eq 1 ]; then
+  if [ $RELABEL_COCO -eq 1 ] && [ $LABEL_ALL_COCO -eq 1 ]; then
     echo 'Relabeling COCO 2014 & 2017'
     python coco/coco_label.py -a
     rm -rf $C_PATH/labels/val* $C_PATH/labels/train*
     cp -r $C_PATH/all_labels/* $C_PATH/labels
     python coco/coco_relabel.py -a
   # Relabel all required classes in COCO 2014
-  elif [ $RELABEL -eq 1 ]; then
+  elif [ $RELABEL_COCO -eq 1 ]; then
     echo 'Relabeling COCO 2014'
     python coco/coco_relabel.py
   # Label all required classes in COCO 2014 & COCO 2017
@@ -170,6 +174,16 @@ if [ $LABEL_DATA -eq 1 ]; then
   # Remove empty labels
   echo '  Removing empty files from labels path'
   ./delete_empty_files.sh $I_PATH/raw/my_labels  
+fi
+
+if [ $RELABEL_IMAGENET -eq 1 ]; then
+  if [ -f $PWD/old_obj.names ]; then
+    mv $I_PATH/raw/labels/ $I_PATH/raw/.labels
+    mv $I_PATH/raw/my_labels/ $I_PATH/raw/.my_labels
+    python imagenet/imagenet_relabel.py
+  else 
+    echo "$PWD/old_obj.names does not exist! Cannot relabel imagenet classes"
+  fi
 fi
 
 # Distribute labelled files into training and testing set
