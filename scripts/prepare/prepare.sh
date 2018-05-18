@@ -13,7 +13,7 @@ UPDATE_COCO=0 # Update COCO classes
   LABEL_ALL_COCO=0 # Get 2017 COCO labels as well
   RELABEL=0 # Relabel using the existing dataset or fresh using COCO api
 CREATE_COCO_TRAINTEST_FILES=0 # Create COCO training and testing files again
-  REMOVE_COCO_EMPTY=1 # Delete label files that contain no labels
+  REMOVE_COCO_EMPTY=0 # Delete label files that contain no labels
  
             ################ ImageNet ###############
 TRAIN_SIZE=75 # /100: Ratio for training/testing split
@@ -23,8 +23,8 @@ DISTRIBUTE_FILES=0 # Distribute into training and testing data files
 
             ############# General ##############
 MERGE_TRAINTEST_FILES=0 # Merging training and testing sets for coco and imagenet
-SEE_SPLIT=1 # See split of classes
-SET_TRAINING_SYM_LINK=1 # Set sym link for YOLO training
+SEE_SPLIT=0 # See split of classes
+SET_TRAINING_SYM_LINK=0 # Set sym link for YOLO training
 
 ######################################################################                                                
 
