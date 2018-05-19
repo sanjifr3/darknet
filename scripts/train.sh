@@ -32,8 +32,24 @@ for i in {0..50}; do
       CONV=darknet53.conv.74
       if [[ $type == *"tiny"* ]]; then CONV=tiny-yolo-voc.conv.13; fi
       MODEL=conv/$CONV
+    #elif [[ ! -f $MODEL ]]; then
+    #  CONV=darknet53.conv.74
+    #  if [[ $type == *"tiny"* ]]; then CONV=tiny-yolo-voc.conv.13; fi
+    #  MODEL=conv/$CONV
+    elif [[ $type == "yolov3-tiny-30obj" ]]; then
+      MODEL=backup/${type}_38800.weights
+    elif [[ $type == "yolov3-30obj" ]]; then
+      MODEL=backup/${type}_2400.weights
     fi
-    
+#    if [[ $MODEL == *"backup"* ]]; then
+#      if [[ ! -f $MODEL ]]; then
+#        echo "$MODEL doesn't exist"
+#        #LIST=`ls backup/$type_`    
+#        newfile=`printf backup/$type_$05d $backup/(${LIST[${#LIST}]}))`
+#        echo $newfile
+#      fi
+#    fi
+
     echo "Training $type with $DATA"
     ./darknet detector train $DATA $CFG $MODEL    
   done
