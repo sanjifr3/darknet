@@ -6,8 +6,8 @@ RETRIES=0..1
 TYPE=(
   #yolov2-tiny-50obj
   #yolov3-50obj
-  yolov3-tiny-30obj
   yolov3-30obj
+  yolov3-tiny-30obj
 )
 
 cd ..
@@ -37,9 +37,9 @@ for i in {0..50}; do
     #  if [[ $type == *"tiny"* ]]; then CONV=tiny-yolo-voc.conv.13; fi
     #  MODEL=conv/$CONV
     elif [[ $type == "yolov3-tiny-30obj" ]]; then
-      MODEL=backup/${type}_38800.weights
+      MODEL=backup/${type}_75000.weights
     elif [[ $type == "yolov3-30obj" ]]; then
-      MODEL=backup/${type}_2400.weights
+      MODEL=backup/${type}_77800.weights
     fi
 #    if [[ $MODEL == *"backup"* ]]; then
 #      if [[ ! -f $MODEL ]]; then
