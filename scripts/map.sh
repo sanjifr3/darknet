@@ -8,20 +8,29 @@ TYPE=(
 )
 
 SUFFIXS=(
-  _70000.weights
-  _80000.weights
-  _90000.weights
-  _100000.weights
-  _102500.weights
-  _105000.weights
-  _107500.weights
-  _110000.weights
-  _112500.weights
-  _115000.weights
-  _117500.weights
-  _120000.weights
-  _122500.weights
-  _125000.weights
+  _final.weights
+#  _60000.weights
+#  _65000.weights
+#  _70000.weights
+#  _75000.weights
+#  _80000.weights
+#  _85000.weights
+#  _90000.weights
+#  _95000.weights
+#  _100000.weights
+#  _80000.weights
+#  _90000.weights
+#  _100000.weights
+#  _102500.weights
+#  _105000.weights
+#  _107500.weights
+#  _110000.weights
+#  _112500.weights
+#  _115000.weights
+#  _117500.weights
+#  _120000.weights
+#  _122500.weights
+#  _125000.weights
 #  _final.weights
 #  .backup
 )

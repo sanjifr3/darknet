@@ -39,7 +39,7 @@ for i in {0..50}; do
     elif [[ $type == "yolov3-tiny-30obj" ]]; then
       MODEL=backup/${type}_75000.weights
     elif [[ $type == "yolov3-30obj" ]]; then
-      MODEL=backup/${type}_77800.weights
+      MODEL=backup/${type}_100000.weights
     fi
 #    if [[ $MODEL == *"backup"* ]]; then
 #      if [[ ! -f $MODEL ]]; then
