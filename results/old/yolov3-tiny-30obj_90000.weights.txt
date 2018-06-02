@@ -22,16 +22,16 @@ class_id = 17, name = toaster, 	 ap = 3.30 %
 class_id = 18, name = sink, 	 ap = 33.73 % 
 class_id = 19, name = refrigerator, 	 ap = 36.92 % 
 class_id = 20, name = book, 	 ap = 7.24 % 
-class_id = 21, name = food, 	 ap = 10.15 % 
-class_id = 22, name = sandal, 	 ap = 12.64 % 
-class_id = 23, name = light, 	 ap = 9.40 % 
-class_id = 24, name = pot, 	 ap = 0.10 % 
-class_id = 25, name = boot, 	 ap = 0.06 % 
-class_id = 26, name = slipper, 	 ap = 0.00 % 
-class_id = 27, name = lamp, 	 ap = 0.22 % 
-class_id = 28, name = shoe, 	 ap = 0.68 % 
-class_id = 29, name = dish, 	 ap = 0.00 % 
- for thresh = 0.25, precision = 0.65, recall = 0.23, F1-score = 0.34 
- for thresh = 0.25, TP = 41535, FP = 22025, FN = 137481, average IoU = 47.43 % 
+class_id = 21, name = food, 	 ap = 17.55 % 
+class_id = 22, name = sandal, 	 ap = 22.41 % 
+class_id = 23, name = light, 	 ap = 24.06 % 
+class_id = 24, name = pot, 	 ap = 19.16 % 
+class_id = 25, name = boot, 	 ap = 14.22 % 
+class_id = 26, name = slipper, 	 ap = 17.30 % 
+class_id = 27, name = lamp, 	 ap = 7.88 % 
+class_id = 28, name = shoe, 	 ap = 43.50 % 
+class_id = 29, name = dish, 	 ap = 39.88 % 
+ for thresh = 0.25, precision = 0.70, recall = 0.25, F1-score = 0.37 
+ for thresh = 0.25, TP = 44528, FP = 19032, FN = 134488, average IoU = 50.93 % 
 
- mean average precision (mAP) = 0.219393, or 21.94 % 
+ mean average precision (mAP) = 0.276964, or 27.70 % 

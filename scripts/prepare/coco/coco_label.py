@@ -35,6 +35,7 @@ with open(classes_file,'r') as f:
   for line in f:
     classes.append(line.strip('\n'))
 
+food_id = classes.index('food')
 if 'food' in classes:
   classes.remove('food')
   classes += ['banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake']
@@ -56,7 +57,10 @@ for year, image_set in sets:
   coco = COCO('%s/annotations/instances_%s%s.json'%(coco_path,image_set,year))
   
   for category in classes:
-    print classes.index(category)
+    cls_id = classes.index(category)
+    if category in ['banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake']:
+      cls_id = food_id
+    print cls_id, category
 
     catIds = coco.getCatIds(catNms=category)
     imgIds = coco.getImgIds(catIds=catIds)
@@ -71,7 +75,7 @@ for year, image_set in sets:
 
       im = cv2.imread(coco_path + '/images/' + image_set + year + '/' + im_path,0)
 
-      for ann in anns:
+      for ann in anns:     
         l = ann['bbox'][0] 
         t = ann['bbox'][1]
         r = ann['bbox'][0] + ann['bbox'][2]
@@ -82,5 +86,5 @@ for year, image_set in sets:
         w = (r-l)/im.shape[1]
         h = (b-t)/im.shape[0]
         
-        f.write('%d %.6f %.6f %.6f %.6f\n'%(classes.index(category),x,y,w,h))
+        f.write('%d %.6f %.6f %.6f %.6f\n'%(cls_id,x,y,w,h))
       f.close()
