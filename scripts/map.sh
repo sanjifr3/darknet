@@ -4,10 +4,14 @@ TYPE=(
   #yolov2-tiny-50obj
   #yolov3-50obj
   yolov3-tiny-30obj
-  yolov3-30obj
+  #yolov3-30obj
+  yolov3-tiny-30obj-labelfixed
+  #yolov3-30obj-labelfixed
 )
 
 SUFFIXS=(
+  _50000.weights
+  _55000.weights
   _60000.weights
   _65000.weights
   _70000.weights
