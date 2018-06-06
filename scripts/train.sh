@@ -8,7 +8,7 @@ TYPE=(
   #yolov3-50obj
   #yolov3-tiny-30obj
   #yolov3-30obj
-  yolov3-tiny-30obj-labelfixed
+  #yolov3-tiny-30obj-labelfixed
   yolov3-30obj-labelfixed
 )
 
@@ -26,7 +26,7 @@ cd ..
 #2*((2000*49))/60/60/24 = 2.26 days
 
 DATA=data/obj.data
-for i in {0..50}; do
+for i in {0}; do # {0..50}; do
   for type in ${TYPE[@]}; do
     CFG=my-cfg/${type}.cfg
     MODEL=backup/${type}.backup
@@ -43,7 +43,7 @@ for i in {0..50}; do
     elif [[ $type == "yolov3-30obj" ]]; then
       MODEL=backup/${type}_100000.weights
     elif [[ $type == "yolov3-tiny-30obj-labelfixed" ]]; then
-      MODEL=backup/${type}_58800.weights
+      MODEL=backup/${type}_100000.weights
    elif [[ $type == "yolov3-30obj-labelfixed" ]]; then
       MODEL=conv/darknet53.conv.74
     fi
