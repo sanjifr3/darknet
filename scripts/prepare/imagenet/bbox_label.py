@@ -6,6 +6,9 @@ from os import walk, getcwd
 from PIL import Image
 
 imagenet_path = '/home/sanjif/Database/imagenet' # Path to imagenet database
+classes_file = 'imagenet/classes.csv'
+wnib_file = 'imagenet/wnib_classes.csv'
+
 if 'I_PATH' in os.environ:
   imagenet_path = os.environ['I_PATH']
 imagenet_path += '/raw/'
@@ -16,25 +19,19 @@ if 'TOOLS_PATH' in os.environ:
   bbox_path = os.environ['TOOLS_PATH']
 bbox_path += '/bbox-label-tool/'
 
-classes_file = 'obj.names'
-wnib_mapping_file = 'imagenet/classes.csv'
-
 classes = []
 with open(classes_file,'r') as f:
     for line in f:
         classes.append(line.strip('\n'))
 
-mapping = {}
-with open(wnib_mapping_file,'r') as f:
+wnib_mapping = {}
+with open(wnib_file, 'r') as f:
   for line in f:
     line_split = line.strip('\n').split(',')
-    mapping[line_split[2]] = line_split[0]
+    wnib_mapping[line_split[2]] = classes.index(line_split[0])
 
 print classes
-print mapping
-print bbox_path
-
-print imagenet_path
+print wnib_mapping
 
 def convert(size, box):
     dw = 1./size[0]
@@ -61,42 +58,43 @@ for folder in folders:
     os.mkdir(outDir + '/' + folder)
 
   for f in os.listdir(bbox_path + 'labels/' + folder):
-    wnid = f.split('_')[0]
-       
-    if wnid in mapping.keys():
-      cls = mapping[wnid]
-      cls_i = classes.index(cls)
-      im_path = bbox_path + 'Images/' + folder + '/' + f.split('.')[0] + '.JPEG'
-      inp = bbox_path + 'labels/' + folder + '/' + f
-      outp = outDir + '/' + folder + '/' + f
-      # print inp + ' > ' + outp
+    wnib = f.split('_')[0]
 
-      ''' Open input file '''
-      txt_file = open(inp, 'r')
-      lines = txt_file.read().split('\n')
-      # print lines
-    
-      ''' Open output file '''
-      txt_outfile = open(outp, "w")
-    
-      ''' Convert data to yolo format'''
-      ct = 0
-      for line in lines:
-        if(len(line) >= 3):
-          ct = ct+1
-          #print(line + "\n")
-          elems = line.split(' ')
-          #print(elems)
-          xmin = elems[0]
-          xmax = elems[2]
-          ymin = elems[1]
-          ymax = elems[3]
-          
-          im = Image.open(im_path)
-          w= int(im.size[0])
-          h= int(im.size[1])
-          
-          b = (float(xmin), float(xmax), float(ymin), float(ymax))
-          bb = convert((w,h), b)
-          print(bb)
-          txt_outfile.write(str(cls_i) + " " + " ".join([str(a) for a in bb]) + '\n')
+    if wnib not in wnib_mapping.keys():
+      continue
+
+    cls_id = wnib_mapping[wnib]
+    im_path = bbox_path + 'Images/' + folder + '/' + f.split('.')[0] + '.JPEG'
+    inp = bbox_path + 'labels/' + folder + '/' + f
+    outp = outDir + '/' + folder + '/' + f
+    # print inp + ' > ' + outp
+
+    ''' Open input file '''
+    txt_file = open(inp, 'r')
+    lines = txt_file.read().split('\n')
+    # print lines
+  
+    ''' Open output file '''
+    txt_outfile = open(outp, "w")
+  
+    ''' Convert data to yolo format'''
+    ct = 0
+    for line in lines:
+      if(len(line) >= 3):
+        ct = ct+1
+        #print(line + "\n")
+        elems = line.split(' ')
+        #print(elems)
+        xmin = elems[0]
+        xmax = elems[2]
+        ymin = elems[1]
+        ymax = elems[3]
+        
+        im = Image.open(im_path)
+        w= int(im.size[0])
+        h= int(im.size[1])
+        
+        b = (float(xmin), float(xmax), float(ymin), float(ymax))
+        bb = convert((w,h), b)
+        print(bb)
+        txt_outfile.write(str(cls_id) + " " + " ".join([str(a) for a in bb]) + '\n')

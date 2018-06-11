@@ -26,7 +26,7 @@ args = vars(ap.parse_args())
 
 if args['all']:
   classes_file = original_classes_file
-  labels_path = 'all_labels'
+  labels_path = 'my_labels'
 
 sets=[('2014', 'val'), ('2014', 'train'), ('2017', 'train'), ('2017', 'val')]
 
@@ -35,10 +35,12 @@ with open(classes_file,'r') as f:
   for line in f:
     classes.append(line.strip('\n'))
 
-food_id = classes.index('food')
-if 'food' in classes:
-  classes.remove('food')
-  classes += ['banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake']
+if not args['all']:
+  food_id = classes.index('food')
+
+  if 'food' in classes:
+    classes.remove('food')
+    classes += ['banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake']
   
 sys.path.insert(0,tools_path)
 
@@ -58,7 +60,7 @@ for year, image_set in sets:
   
   for category in classes:
     cls_id = classes.index(category)
-    if category in ['banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake']:
+    if not args['all'] and category in ['banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake']:
       cls_id = food_id
     print cls_id, category
 

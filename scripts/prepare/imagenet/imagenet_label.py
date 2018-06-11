@@ -14,7 +14,9 @@ if 'I_PATH' in os.environ:
 imagenet_path += '/raw'
 
 classes_file = 'obj.names'
-wnib_mapping_file = 'imagenet/classes.csv'
+wnib_mapping_file = 'imagenet/wnib_classes.csv'
+
+cleaned_classes_file = 'imagenet/classes.csv'
 
 classes = []
 with open(classes_file,'r') as f:
@@ -22,10 +24,22 @@ with open(classes_file,'r') as f:
         classes.append(line.strip('\n'))
 
 mapping = {}
+cls_id = -1
+prev_cls = ''
+out_classes_file = open(cleaned_classes_file, 'w')
 with open(wnib_mapping_file,'r') as f:
   for line in f:
     line_split = line.strip('\n').split(',')
-    mapping[line_split[2]] = line_split[0]
+    cls = line_split[0]
+    if cls != prev_cls:
+        cls_id+=1
+        out_classes_file.write(cls + '\n')
+    prev_cls = cls
+    mapping[line_split[2]] = cls_id
+
+    print cls, "(", cls_id, "):", line_split[2]
+
+out_classes_file.close()
     
 def convert(size, box):
     dw = 1./size[0]
@@ -59,10 +73,10 @@ def convert_annotation(folder,image_id):
         wnid = obj.find('name').text
         if wnid not in mapping.keys():
           continue
-        cls = mapping[wnid]
-        if cls not in classes or int(difficult) == 1:
+        cls_id = mapping[wnid]
+        if int(difficult) == 1:
             continue
-        cls_id = classes.index(cls)
+        #cls_id = classes.index(cls)
         xmlbox = obj.find('bndbox')
         b = (float(xmlbox.find('xmin').text), float(xmlbox.find('xmax').text), float(xmlbox.find('ymin').text), float(xmlbox.find('ymax').text))
         bb = convert((w,h), b)

@@ -4,57 +4,77 @@ import os
 import sys
 
 imagenet_path = '/home/sanjif/Database/imagenet'
+classes_file = 'imagenet/classes.csv'
+wnib_file = 'imagenet/wnib_classes.csv'
 
 if 'IN_PATH' in os.environ:
-  imaganet_path = os.environ('C_PATH')
+  imaganet_path = os.environ('I_PATH')
 
 script_path = os.path.realpath(__file__)
-
 classes_path = script_path.split(os.path.basename(__file__))[0]
 
 if imagenet_path[-1] != '/':
   imagenet_path += '/'
 
-original_classes_file = 'old_obj.names'
-classes_file = 'obj.names'
+imagenet_classes_file = classes_path + 'classes.csv'
+all_classes_file = classes_path + '../obj.names'
 
-old_classes = []
-with open (classes_path + '../' + original_classes_file, 'r') as f:
+in_classes = []
+with open(imagenet_classes_file,'r') as f:
   for line in f:
-    old_classes.append(line.strip('\n'))
+    in_classes.append(line.strip('\n'))
 
-classes = []
-with open (classes_path + '../' + classes_file, 'r') as f:
+all_classes = []
+with open(all_classes_file,'r') as f:
   for line in f:
-    classes.append(line.strip('\n'))
+    all_classes.append(line.strip('\n'))
 
-print old_classes
-print '\n'
-print classes
+print in_classes
+print all_classes
+
+print 'Relabelling ImageNet'
+
+food = ['banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake']
 
 remapping = {}
-for i in range(len(old_classes)):
+for i in range(len(in_classes)):
+  if in_classes[i] in food and 'food' in all_classes:
+    in_classes[i] = 'food'
   try:
-    remapping[i] = classes.index(old_classes[i])
+    remapping[i] = all_classes.index(in_classes[i])
   except ValueError:
     remapping[i] = -1
 
 print remapping
 
-for label_folder in ['labels','my_labels']:
-  for set in os.listdir(imagenet_path + 'raw/.' + label_folder):
-    for file in os.listdir(imagenet_path + 'raw/.' + label_folder + '/' + set):
-      print imagenet_path + 'raw/.' + label_folder + '/' + set + '/' + file
-      with open(imagenet_path + 'raw/.' + label_folder + '/' + set + '/' + file, 'r') as f:
-        if not os.path.exists(imagenet_path + 'raw/' + label_folder + '/' + set + '/'):
-          os.makedirs(imagenet_path + 'raw/' + label_folder + '/' + set + '/')
+classes = []
+with open(classes_file, 'r') as f:
+  for line in f:
+    classes.append(line.strip('\n'))
+print classes
 
-        fout = open(imagenet_path + 'raw/' + label_folder + '/' + set + '/' + file, 'w')
-        for line in f:
-          line = line.strip('\n').split()
-          line[0] = str(remapping[int(line[0])])
-          if int(line[0]) != -1:
-            # print ' '.join(line)
-            fout.write(' '.join(line))
-            fout.write('\n')
-        fout.close()
+wnib_mapping = {}
+with open(wnib_file, 'r') as f:
+  for line in f:
+    line_split = line.strip('\n').split(',')
+    wnib_mapping[line_split[2]] = classes.index(line_split[0])
+
+print wnib_mapping
+
+folders = ['train','test']
+
+for folder in folders:
+  if not os.path.exists('%s/labels/%s'%(imagenet_path,folder)):
+    os.makedirs('%s/labels/%s'%(imagenet_path,folder))
+
+  for file in os.listdir('%s/my_labels/%s'%(imagenet_path,folder)):
+    with open('%s/my_labels/%s/%s'%(imagenet_path,folder,file),'r') as f:
+      fout = open('%s/labels/%s/%s'%(imagenet_path,folder,file),'w')
+      for line in f:
+        line = line.strip('\n').split()
+        line[0] = str(remapping[int(line[0])])
+        if int(line[0]) != -1:
+          #print ' '.join(line)
+          fout.write(' '.join(line))
+          fout.write('\n')
+      fout.close()

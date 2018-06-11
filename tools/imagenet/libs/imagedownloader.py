@@ -107,6 +107,7 @@ class ImageNetDownloader:
 
     def downloadOriginalImages(self, wnid, username, accesskey):
         download_url = 'http://www.image-net.org/download/synset?wnid=%s&username=%s&accesskey=%s&release=latest&src=stanford' % (wnid, username, accesskey)
+        download_file = ''
         try:
              download_file = self.download_file(download_url, self.mkWnidDir(wnid), wnid + '_original_images.tar')
         except Exception, erro:
@@ -120,4 +121,3 @@ class ImageNetDownloader:
         self.extractTarfile(download_file)
         os.chdir(currentDir)
         print 'Extract images to ' + extracted_folder
-
