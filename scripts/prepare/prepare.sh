@@ -11,14 +11,14 @@ UPDATE_COCO=0 # Pull all data from annotations - really no reason to run this ag
   
             ################ ImageNet ###############
 DOWNLOAD_DATA=0 # Download data from imagenet
-LABEL_DATA=0 # Label objects using bbox-labeling-tool
-DISTRIBUTE_FILES=0 # Distribute into training and testing data files
+LABEL_DATA=1 # Label objects using bbox-labeling-tool
+DISTRIBUTE_FILES=1 # Distribute into training and testing data files
 
 # Parameters
 TRAIN_SIZE=75 # /100: Ratio for training/testing split
             ################ Combined ###############
 RELABEL_CLASSES=0
-MAKE_TRAINING_FILES=1
+MAKE_TRAINING_FILES=0
 
 ######################################################################                                                
 
@@ -126,16 +126,18 @@ if [ $DISTRIBUTE_FILES -eq 1 ]; then
   rm $I_PATH/images/train/* $I_PATH/images/test/*
 
   for FOLDER in `ls $I_PATH/raw/images/`; do
+  
     NUM_ANNOT=`ls $I_PATH/raw/labels/$FOLDER/ | wc -l`
     NUM_ANNOT=$(($NUM_ANNOT + `ls $I_PATH/raw/my_labels/$FOLDER/ | wc -l`))
-    
+    echo "${FOLDER} Total Labelled Images: ${NUM_ANNOT}"
+  
+    NUM_ANNOT=`ls $I_PATH/raw/labels/$FOLDER/ | wc -l`    
     NUM_TRAIN=$(($NUM_ANNOT * $TRAIN_SIZE / 100 ))
     NUM_TEST=$(($NUM_ANNOT-$NUM_TRAIN))
-    
-    echo "${FOLDER}: ${NUM_ANNOT} (train/test): $NUM_TRAIN/$NUM_TEST"
-    
     CTR=0
     
+    echo "  ImageNet Labels: ${NUM_ANNOT} (train/test): $NUM_TRAIN/$NUM_TEST"
+       
     for FILE in `ls $I_PATH/raw/labels/$FOLDER/ | sed -e 's/\.txt$//'`; do
       CTR=$(($CTR+1))
       
@@ -147,6 +149,13 @@ if [ $DISTRIBUTE_FILES -eq 1 ]; then
         ln -s $I_PATH/raw/images/$FOLDER/$FILE.JPEG $I_PATH/images/test/
       fi
     done
+    
+    NUM_ANNOT=`ls $I_PATH/raw/my_labels/$FOLDER/ | wc -l`
+    NUM_TRAIN=$(($NUM_ANNOT * $TRAIN_SIZE / 100 ))
+    NUM_TEST=$(($NUM_ANNOT-$NUM_TRAIN))
+    CTR=0
+    
+    echo "  My Labels: ${NUM_ANNOT} (train/test): $NUM_TRAIN/$NUM_TEST"  
     
     for FILE in `ls $I_PATH/raw/my_labels/$FOLDER/ | sed -e 's/\.txt$//'`; do
       CTR=$(($CTR+1))
