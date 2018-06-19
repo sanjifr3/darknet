@@ -7,24 +7,24 @@ TYPE=(
   #yolov3-30obj
   #yolov3-tiny-30obj-labelfixed
   #yolov3-tiny-30obj-labelfixed2
-  yolov3-tiny-30obj-labelfixed3
+  yolov3-tiny-30obj
   #yolov3-30obj-labelfixed
 )
 
 SUFFIXS=(
-  _10000.weights
-  #_50000.weights
+  #_10000.weights
+  _50000.weights
   #_55000.weights
-  #_60000.weights
+  _60000.weights
   #_65000.weights
-  #_70000.weights
+  _70000.weights
   #_75000.weights
-  #_80000.weights
+  _80000.weights
   #_85000.weights
-  #_90000.weights
+  _90000.weights
   #_95000.weights
-  #_100000.weights
-  #_final.weights
+  _100000.weights
+  _final.weights
 )
 
 cd ..
@@ -50,3 +50,6 @@ for type in ${TYPE[@]}; do
     ./darknet detector map $DATA $CFG $MODEL > results/${type}${suffix}.txt
   done
 done
+
+cd scripts
+python parse_results.py

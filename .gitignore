@@ -6,6 +6,9 @@ darknet
 .fuse*
 #lib*
 
+*.backup
+*.weights
+
 weights/*.weights
 
 backup/*.backup

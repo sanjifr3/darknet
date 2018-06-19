@@ -12,13 +12,14 @@ UPDATE_COCO=0 # Pull all data from annotations - really no reason to run this ag
             ################ ImageNet ###############
 DOWNLOAD_DATA=0 # Download data from imagenet
 LABEL_DATA=0 # Label objects using bbox-labeling-tool
-DISTRIBUTE_FILES=0 # Distribute into training and testing data files
+DISTRIBUTE_FILES=1 # Distribute into training and testing data files
 
 # Parameters
-TRAIN_SIZE=75 # /100: Ratio for training/testing split
+TRAIN_SIZE=70 # /100: Ratio for training/testing split
             ################ Combined ###############
 RELABEL_CLASSES=1 # Relabel the COCO and IMAGENET classes so they follow obj.names
 MAKE_TRAINING_FILES=1 # Make train.list, test.list, and put them in the correct directories
+START_TRAINING=1 # Start Training
 
 ######################################################################                                                
 
@@ -258,3 +259,9 @@ if [ $MAKE_TRAINING_FILES -eq 1 ]; then
 fi
 
 ######################################################################
+
+if [ $START_TRAINING -eq 1 ]; then
+  cd $DN_PATH/../pj_darknet/scripts
+  export CONTINUE_TRAINING=0
+  ./train.sh
+fi
