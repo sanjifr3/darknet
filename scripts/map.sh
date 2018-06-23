@@ -4,27 +4,30 @@ TYPE=(
   #yolov2-tiny-50obj
   #yolov3-50obj
   #yolov3-tiny-30obj
-  #yolov3-30obj
+  yolov3-30obj
   #yolov3-tiny-30obj-labelfixed
   #yolov3-tiny-30obj-labelfixed2
-  yolov3-tiny-30obj
+  #yolov3-tiny-30obj
   #yolov3-30obj-labelfixed
 )
 
 SUFFIXS=(
   #_10000.weights
+  #_20000.weights
+  #_30000.weights
+  _40000.weights  
   _50000.weights
   #_55000.weights
   _60000.weights
   #_65000.weights
-  _70000.weights
+  #_70000.weights
   #_75000.weights
-  _80000.weights
+  #_80000.weights
   #_85000.weights
-  _90000.weights
+  #_90000.weights
   #_95000.weights
-  _100000.weights
-  _final.weights
+  #_100000.weights
+  #_final.weights
 )
 
 cd ..
@@ -44,7 +47,7 @@ DATA=data/obj.data
 for type in ${TYPE[@]}; do
   for suffix in ${SUFFIXS[@]}; do
     CFG=my-cfg/${type}.cfg
-    MODEL=backup/${type}${suffix}
+    MODEL=$HOME/programs/pj_darknet/backup/${type}${suffix}
     
     echo "Validating $type with $DATA"
     ./darknet detector map $DATA $CFG $MODEL > results/${type}${suffix}.txt

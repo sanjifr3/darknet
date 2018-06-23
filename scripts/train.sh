@@ -1,18 +1,16 @@
 #!/bin/bash
 
-CONTINUE=1
+CONTINUE=${CONTINUE_TRAINING:-1}
 RETRIES=0..1
 
 TYPE=(
   #yolov2-tiny-50obj
   #yolov3-50obj
-  #yolov3-tiny-30obj
-  #yolov3-30obj
-  yolov3-tiny-30obj-labelfixed
-  yolov3-30obj-labelfixed
+  yolov3-tiny-30obj
+  yolov3-30obj
 )
 
-cd ..
+cd $HOME/programs/pj_darknet
 
 # Place cfg file in cfg/
 
@@ -34,21 +32,10 @@ for i in {0..50}; do
       CONV=darknet53.conv.74
       if [[ $type == *"tiny"* ]]; then CONV=tiny-yolo-voc.conv.13; fi
       MODEL=conv/$CONV
-    #elif [[ ! -f $MODEL ]]; then
-    #  CONV=darknet53.conv.74
-    #  if [[ $type == *"tiny"* ]]; then CONV=tiny-yolo-voc.conv.13; fi
-    #  MODEL=conv/$CONV
     elif [[ $type == "yolov3-tiny-30obj" ]]; then
-      #MODEL=backup/${type}_75000.weights
-      MODEL=conv/tiny-yolo-voc.conv.13
-    elif [[ $type == "yolov3-30obj" ]]; then
-      #MODEL=backup/${type}_100000.weights
-      MODEL=conv/darknet53.conv.74
-    elif [[ $type == "yolov3-tiny-30obj-labelfixed" ]]; then
-      #MODEL=backup/${type}_100000.weights
-      MODEL=conv/tiny-yolo-voc.conv.13
-   elif [[ $type == "yolov3-30obj-labelfixed" ]]; then
-      MODEL=conv/darknet53.conv.74
+      MODEL=backup/${type}.backup
+   elif [[ $type == "yolov3-30obj" ]]; then
+      MODEL=backup/${type}.backup
     fi
 #    if [[ $MODEL == *"backup"* ]]; then
 #      if [[ ! -f $MODEL ]]; then
