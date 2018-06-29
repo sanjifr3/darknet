@@ -12,7 +12,7 @@ df = pd.DataFrame(columns=columns)
 df.index.name = 'model'
 
 for file in os.listdir(results_path):  
-  if file in ['YOLO_model_results.csv','data_split.txt','old']:
+  if file in ['YOLO_model_results.csv','data_split.txt','old','old_v2']:
     continue
   with open (results_path + '/' + file) as f:
     results = pd.Series(index=columns)

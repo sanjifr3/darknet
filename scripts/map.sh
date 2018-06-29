@@ -20,14 +20,14 @@ SUFFIXS=(
   #_55000.weights
   #_60000.weights
   #_65000.weights
-  _70000.weights
+  #_70000.weights
   #_75000.weights
-  _80000.weights
+  #_80000.weights
   #_85000.weights
-  #_90000.weights
+  _90000.weights
   #_95000.weights
-  #_100000.weights
-  #_final.weights
+  _100000.weights
+  _final.weights
 )
 
 cd ..
