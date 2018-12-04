@@ -1,8 +1,12 @@
 #!/bin/bash
 
 cd ../weights/
-wget https://pjreddie.com/media/files/yolo.weights
 wget https://pjreddie.com/media/files/yolov3.weights
+wget https://pjreddie.com/media/files/yolov3-tiny.weights
+wget https://pjreddie.com/media/files/yolov3-spp.weights
+wget https://pjreddie.com/media/files/yolov3-openimages.weights
+
+wget https://pjreddie.com/media/files/yolo.weights
 wget https://pjreddie.com/media/files/yolo-voc.weights
 wget https://pjreddie.com/media/files/alexnet.weights
 wget https://pjreddie.com/media/files/yolov2-tiny.weights

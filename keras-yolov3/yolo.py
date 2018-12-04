@@ -118,11 +118,17 @@ class YOLO(object):
         box = out_boxes[i]
         score = out_scores[i]
 
+        print '\n'
+
+        print box
+
         t, l, b, r = box
         t = max(0, np.floor(t + 0.5).astype('int32'))
         l = max(0, np.floor(l + 0.5).astype('int32'))
         b = min(sz[1], np.floor(b + 0.5).astype('int32'))
         r = min(sz[0], np.floor(r + 0.5).astype('int32'))
+
+        print t,l,b,r
 
         names.append(predicted_class)
         scores.append(score)

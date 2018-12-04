@@ -1,4 +1,12 @@
-#include "image_interface.h"
+/*
+ * image_interface.c
+ *
+ *  Created on: Dec 19, 2016
+ *      Author: Marko Bjelonic
+ *   Institute: ETH Zurich, Robotic Systems Lab
+ */
+
+#include <object_detector/image_interface.h>
 
 image **load_alphabet_with_file(char *datafile) {
   int i, j;
