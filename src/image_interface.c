@@ -6,7 +6,7 @@
  *   Institute: ETH Zurich, Robotic Systems Lab
  */
 
-#include <object_detector/image_interface.h>
+#include "image_interface.h"
 
 image **load_alphabet_with_file(char *datafile) {
   int i, j;
