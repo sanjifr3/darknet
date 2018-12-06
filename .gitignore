@@ -9,6 +9,8 @@ darknet
 *.backup
 *.weights
 
+*.h5
+
 weights/*.weights
 
 backup/*.backup
